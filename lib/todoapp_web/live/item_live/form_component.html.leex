@@ -11,7 +11,7 @@
   <%= error_tag f, :description %>
 
   <%= label f, :priority %>
-  <%= text_input f, :priority %>
+  <%= select f, :priority, ["low", "medium", "high"] %>
   <%= error_tag f, :priority %>
 
   <%= label f, :is_done %>
