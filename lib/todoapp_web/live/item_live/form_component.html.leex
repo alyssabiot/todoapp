@@ -14,8 +14,11 @@
   <%= select f, :priority, ["low", "medium", "high"] %>
   <%= error_tag f, :priority %>
 
-  <%= label f, :is_done %>
-  <%= checkbox f, :is_done %>
+  <!-- TO DO: find a better way to inline checkbox and label -->
+  <%= label f, :is_done do %>
+    <%= checkbox f, :is_done %>
+    <%= Phoenix.Naming.humanize(:is_done) %>
+  <% end %>
   <%= error_tag f, :is_done %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
