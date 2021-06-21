@@ -93,6 +93,28 @@
   margin: -1rem 0 2rem;
 }
 
+.edit {
+  font-size: 24px;
+  a {
+    color: rgb(85, 26, 100);
+  }
+}
+
+.delete {
+  font-size: 24px;
+  a {
+    color: rgb(185, 11, 11);
+  }
+}
+
+tr:nth-child(even) {
+  background-color: rgba(229, 229, 238, 0.4);
+}
+
+tr:hover {
+  background-color: rgba(233, 210, 214, 0.4);
+}
+
 /* Status pills */
 .pill-component-container {
   display: inline-block;
@@ -147,26 +169,5 @@
 
   &.error {
     background-color: red;
-  }
-
-  &.white,
-  &.white-teal,
-  &.white-pink {
-    background-color: white;
-  }
-
-  &.white {
-    border: 1px solid gray;
-    color: gray;
-  }
-
-  &.white-teal {
-    border: 1px solid teal;
-    color: teal;
-  }
-
-  &.white-pink {
-    border: 1px solid pink;
-    color: pink;
   }
 }

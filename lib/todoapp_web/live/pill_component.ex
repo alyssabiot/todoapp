@@ -15,7 +15,7 @@ defmodule TodoWeb.PillComponent do
   Types are semantically named and include colors. No additional styling should be required.
   * `default` - teal
   * `active` - green
-  * `confirm` - pink
+  * `confirm` - green
   * `disabled` - grey
   * `warning` - yellow
   * `error` - red
