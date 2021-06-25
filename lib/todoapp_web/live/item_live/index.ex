@@ -40,6 +40,14 @@ defmodule TodoappWeb.ItemLive.Index do
     {:noreply, assign(socket, :items, list_items())}
   end
 
+  def handle_event("toggle", %{"id" => id}, socket) do
+    item = Todos.get_item!(id)
+    new_status = if item.is_done, do: false, else: true
+    {:ok, _item} = Todos.update_item(item, %{is_done: new_status})
+
+    {:noreply, assign(socket, :items, list_items())}
+  end
+
   defp list_items do
     Todos.list_items()
   end

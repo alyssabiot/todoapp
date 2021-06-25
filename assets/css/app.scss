@@ -131,6 +131,8 @@ tr:hover {
   text-transform: uppercase;
   color: white;
 
+  cursor: pointer;
+
   .dot:before {
     content: "\2B24";
     margin-right: 5px;
@@ -154,20 +156,8 @@ tr:hover {
     background-color: rgb(93, 223, 67);
   }
 
-  &.active {
-    background-color: yellowgreen;
-  }
-
-  &.disabled {
-    background-color: gray;
-  }
-
   &.warning {
     background-color: rgb(255, 187, 0);
     color: black;
-  }
-
-  &.error {
-    background-color: red;
   }
 }

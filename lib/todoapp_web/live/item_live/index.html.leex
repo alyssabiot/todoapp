@@ -25,9 +25,9 @@
         <td><%= item.description %></td>
         <td><%= item.priority %></td>
         <%= if item.is_done == true do %>
-          <td><%= live_component @socket, TodoWeb.PillComponent, type: "confirm", content: "done" %></td>
+          <td><%= live_component @socket, TodoWeb.PillComponent, type: "confirm", content: "done", id: item.id %></td>
         <% else %>
-          <td><%= live_component @socket, TodoWeb.PillComponent, type: "warning", content: "to do" %></td>
+          <td><%= live_component @socket, TodoWeb.PillComponent, type: "warning", content: "to do", id: item.id %></td>
         <% end %>
 
         <td>
