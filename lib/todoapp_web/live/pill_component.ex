@@ -12,8 +12,6 @@ defmodule TodoWeb.PillComponent do
   # use Phoenix.LiveComponent
   use TodoappWeb, :live_component
 
-  alias Todoapp.Todos
-
   @impl true
   def render(assigns) do
     type = Map.get(assigns, :type, "teal")

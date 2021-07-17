@@ -5,13 +5,13 @@ defmodule TodoappWeb.ItemLiveTest do
 
   alias Todoapp.Todos
 
-  @create_attrs %{description: "some description", is_done: true, priority: "some priority"}
+  @create_attrs %{description: "some description", is_done: true, priority: "low"}
   @update_attrs %{
     description: "some updated description",
     is_done: false,
-    priority: "some updated priority"
+    priority: "high"
   }
-  @invalid_attrs %{description: nil, is_done: nil, priority: nil}
+  @invalid_description %{description: nil}
 
   defp fixture(:item) do
     {:ok, item} = Todos.create_item(@create_attrs)
@@ -42,7 +42,7 @@ defmodule TodoappWeb.ItemLiveTest do
       assert_patch(index_live, Routes.item_index_path(conn, :new))
 
       assert index_live
-             |> form("#item-form", item: @invalid_attrs)
+             |> form("#item-form", item: @invalid_description)
              |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
@@ -53,18 +53,20 @@ defmodule TodoappWeb.ItemLiveTest do
 
       assert html =~ "Item created successfully"
       assert html =~ "some description"
+      assert html =~ "low"
+      assert html =~ "done"
     end
 
     test "updates item in listing", %{conn: conn, item: item} do
       {:ok, index_live, _html} = live(conn, Routes.item_index_path(conn, :index))
 
-      assert index_live |> element("#item-#{item.id} a", "Edit") |> render_click() =~
+      assert index_live |> element("#item-#{item.id} .edit a") |> render_click() =~
                "Edit Item"
 
       assert_patch(index_live, Routes.item_index_path(conn, :edit, item))
 
       assert index_live
-             |> form("#item-form", item: @invalid_attrs)
+             |> form("#item-form", item: @invalid_description)
              |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
@@ -75,12 +77,14 @@ defmodule TodoappWeb.ItemLiveTest do
 
       assert html =~ "Item updated successfully"
       assert html =~ "some updated description"
+      assert html =~ "high"
+      assert html =~ "to do"
     end
 
     test "deletes item in listing", %{conn: conn, item: item} do
       {:ok, index_live, _html} = live(conn, Routes.item_index_path(conn, :index))
 
-      assert index_live |> element("#item-#{item.id} a", "Delete") |> render_click()
+      assert index_live |> element("#item-#{item.id} .delete a") |> render_click()
       refute has_element?(index_live, "#item-#{item.id}")
     end
   end
