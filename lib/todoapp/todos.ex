@@ -4,8 +4,8 @@ defmodule Todoapp.Todos do
   """
 
   import Ecto.Query, warn: false
-  alias Todoapp.Repo
 
+  alias Todoapp.Repo
   alias Todoapp.Todos.Item
 
   @doc """
@@ -17,8 +17,57 @@ defmodule Todoapp.Todos do
       [%Item{}, ...]
 
   """
-  def list_items do
-    Repo.all(Item)
+
+  # def list_items do
+  #   Repo.all(Item)
+  # end
+
+  def list_items(params \\ %{}) do
+    order_by(params["order_by"])
+    |> Repo.all()
+  end
+
+  defp order_by("prio_desc") do
+    from(
+      i in Item,
+      order_by: [fragment("CASE
+                 WHEN priority = 'high' THEN 1
+                 WHEN priority = 'medium' THEN 2
+                 WHEN priority = 'low' THEN 3
+                 END")]
+    )
+  end
+
+  defp order_by("prio_asc") do
+    from(
+      i in Item,
+      order_by: [fragment("CASE
+            WHEN priority = 'low' THEN 1
+            WHEN priority = 'medium' THEN 2
+            WHEN priority = 'high' THEN 3
+            END")]
+    )
+  end
+
+  defp order_by("status_desc") do
+    from(
+      i in Item,
+      order_by: [desc: :is_done]
+    )
+  end
+
+  defp order_by("status_asc") do
+    from(
+      i in Item,
+      order_by: [asc: :is_done]
+    )
+  end
+
+  defp order_by(_) do
+    from(
+      i in Item,
+      order_by: []
+    )
   end
 
   @doc """

@@ -1,6 +1,8 @@
 defmodule TodoappWeb.ItemLive.Index do
   use TodoappWeb, :live_view
 
+  import Ecto.Changeset
+
   alias Todoapp.Todos
   alias Todoapp.Todos.Item
 
@@ -26,10 +28,12 @@ defmodule TodoappWeb.ItemLive.Index do
     |> assign(:item, %Item{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
     socket
     |> assign(:page_title, "Listing Items")
     |> assign(:item, nil)
+    |> assign(:order_changeset, order_changeset(params))
+    |> assign(:items, Todos.list_items(params))
   end
 
   @impl true
@@ -48,7 +52,31 @@ defmodule TodoappWeb.ItemLive.Index do
     {:noreply, assign(socket, :items, list_items())}
   end
 
+  def handle_event("order", %{"order" => order_params}, socket) do
+    order_params
+    |> order_changeset()
+    |> case do
+      %{valid?: true} = changeset ->
+        {
+          :noreply,
+          socket
+          |> push_patch(to: Routes.item_index_path(socket, :index, apply_changes(changeset)))
+        }
+
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
   defp list_items do
     Todos.list_items()
+  end
+
+  defp order_changeset(attrs \\ %{}) do
+    cast(
+      {%{}, %{order_by: :string}},
+      attrs,
+      [:order_by]
+    )
   end
 end

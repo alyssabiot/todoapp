@@ -16,7 +16,13 @@
       <th>Priority</th>
       <th>Status</th>
 
-      <th></th>
+      <th>
+        <%= f = form_for @order_changeset, "#", phx_change: "order", as: "order" %>
+          <% options = ["Order by": "", "Priority (low)": "prio_asc", "Priority (high)": "prio_desc",
+                        "Status (to do)": "status_asc", "Status (done)": "status_desc"] %>
+          <%= select f, :order_by, options, class: "tag-select tag-select-sm" %>
+        </form>
+      </th>
     </tr>
   </thead>
   <tbody id="items">
